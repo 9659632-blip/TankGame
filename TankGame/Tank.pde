@@ -1,7 +1,7 @@
 class Tank {
   // Member varaiables
   float x, y, w, h, speed, health;
-  PImage iTankW,iTankA,iTankS,iTankD;
+  PImage iTankW, iTankA, iTankS, iTankD;
   char idir;
 
   //Constructor
@@ -10,40 +10,43 @@ class Tank {
     y = 100.0;
     w = 100.0;
     h = 100.0;
-    speed = 2.0;
+    speed = 7;
     health = 75.0;
     iTankW = loadImage("tankW.png");
     iTankA = loadImage("tankA.png");
-    iTankS = loadImage("tankD.png");
-    iTankD = loadImage("tankS.png");
+    iTankS = loadImage("tankS.png");
+    iTankD = loadImage("tankD.png");
     idir = 'w';
   }
-  
+
   void display() {
- imageMode(CENTER);
- if(idir == 'w') {
-   image(iTankW,x,y);
-  }if(idir == 'a') {
-   image(iTankA,x,y);
-   }if(idir == 's') {
-   image(iTankA,x,y);
-    }if(idir == 'd') {
-   image(iTankA,x,y);
-  }
-   
+    imageMode(CENTER);
+    if (idir == 'w') {
+      image(iTankW, x, y);
+    } else if (idir == 'a') {
+      image(iTankA, x, y);
+    } else if (idir == 's') {
+      image(iTankS, x, y);
+    } else if (idir == 'd') {
+      image(iTankD, x, y);
+    }
   }
   void move(char dir) {
-   if (dir == 'w') {
-        y = y - speed;
+    if (dir == 'w') {
+      idir = 'w';
+      y = y - speed;
     } else if (dir == 's') {
-        y = y + speed;
+      idir = 's';
+      y = y + speed;
     } else if (dir == 'a') {
-        x = x - speed;
+      idir = 'a';
+      x = x - speed;
     } else if (dir == 'd') {
-        x = x + speed;
+      idir = 'd';
+      x = x + speed;
     }
-}
+  }
 
-void fire() {
-}
+  void fire() {
+  }
 }
