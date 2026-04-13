@@ -1,7 +1,7 @@
 class Rock {
   // Member varaiables
   float x, y, w, h, speed, health;
-  PImage iTankW;
+  PImage rock;
   char idir;
 
   //Constructor
@@ -13,17 +13,22 @@ class Rock {
     this.speed = speed;
     this.health = health;
     idir = 'w';
+    rock = loadImage("rock.png");
+    //if(idir == 'w'){
+    //  rock = loadImage("rock.png");
+    //}
+    //else if (type == "crate"){
+    //  rock = loadImage("crate.png");
+    //}
   }
 
   void display() {
     fill(128);
-    rect(x, y, w, h);
+    image(rock, x, y);
+  }
+
+  void move() {
+    x = x + speed;
   }
 }
-void move() {
-  x=x+speed
-}
 
-
-void fire() {
-}
