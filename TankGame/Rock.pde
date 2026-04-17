@@ -14,21 +14,19 @@ class Rock {
     this.health = health;
     idir = 'w';
     rock = loadImage("rock.png");
-    //if(idir == 'w'){
-    //  rock = loadImage("rock.png");
-    //}
-    //else if (type == "crate"){
-    //  rock = loadImage("crate.png");
-    //}
+    
   }
 
   void display() {
     fill(128);
+    imageMode(CENTER);
     image(rock, x, y);
   }
 
   void move() {
-    x = x + speed;
+    x=x+speed;
+    if(x>width){
+   x = 0;
+    }
   }
 }
-
