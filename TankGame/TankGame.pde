@@ -7,6 +7,7 @@ Rock o2;
 Rock o3;
 PImage bg;
 int score;
+Timer objTimer;
 
 
 void setup() {
@@ -14,12 +15,12 @@ void setup() {
   score = 0;
   bg = loadImage("bg3.png");
   t1 = new Tank();
-  o1 = new Rock(450, 100, 100, 50, 5, 100);
-  o2 = new Rock(270, 100, 100, 50, 5, 100);
-  o3 = new Rock(150, 100, 100, 50, 5, 100);
-
-
-  rocks.add(new Rock(300, 200, 100, 100, 100, 200));
+  // o1 = new Rock(450, 100, 100, 50, 5, 100);
+  //o2 = new Rock(270, 100, 100, 50, 5, 100);
+  //o3 = new Rock(150, 100, 100, 50, 5, 100);
+  objTimer = new Timer(1000);
+  objTimer.start();
+  //rocks.add(new Rock(300, 200, 100, 100, 100, 200));
 }
 
 
@@ -28,22 +29,36 @@ void draw() {
   t1.display();
   for (int i = 0; i < projectiles.size(); i++) {
     Projectile part = projectiles.get(i);
+    part.move();
     part.display();
   }
-  o1.display();
-  o1.move();
-  o2.display();
-  o2.move();
-  o3.display();
-  o3.move();
+
   scorePanel();
 
+  //distribute objects on timer†
+  if (objTimer.isFinished()) {
+    //Add object
+    rocks.add(new Rock(300, 200, 100, 100, 5, 200));
+    //restart timer
+    objTimer.start();
+  }
+
+//Render and detect collision 
   for (int i = 0; i < rocks.size(); i++) {
     Rock part = rocks.get(i);
+    for(int j = 0 ; j < rocks.size(); j++) {
+   Rock o = rocks.get(j);
+   if(p.intersect(o)) {
+  score = score + 100;
+  projectiles.remove(i);
+  rocks.remove(j);
+   }
+    }
     part.display();
     part.move();
   }
 }
+
 
 void keyPressed() {
   if (key == 'w') {
@@ -61,6 +76,17 @@ void keyPressed() {
 void mousePressed() {
   projectiles.add(new Projectile(t1.x, t1.y, 4, 10));
   println(projectiles.size());
+  float dx = mouseX - t1.x;
+  float dy = mouseY - t1.y;
+  float mag = sqrt(dx*dx + dy*dy);
+
+  if (mag > 0) {
+    dx /= mag;
+    dy /= mag;
+
+    float speed = 5;
+    projectiles.add(new Projectile(t1.x, t1.y, dx * speed, dy * speed));
+  }
 }
 
 

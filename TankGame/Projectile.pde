@@ -1,15 +1,18 @@
 class Projectile {
   // Member varaiables
   float x, y, w, h, speed;
+  float vx, vy;
   char dir;
 
 
   //Constructor
-  Projectile(float x, float y, float w, float h) {
+  Projectile(float x, float y, float vx, float vy) {
     this.x = x;
     this.y = y;
-    this.w = w;
-    this.h = h;
+    this.vx = vx;
+    this.vy = vy;
+    this.w = 10;
+    this.h = 10;
     speed = 10;
     dir = 'u';
   }
@@ -20,6 +23,17 @@ class Projectile {
   }
 
   void move() {
-    y = y - speed;
+    x += vx;
+    y += vy;
+  }
+}
+
+
+boolean intersect(Rock o) {
+  float distance = dist(x, y, o.x, o.y);
+  if (distance < 220) {
+    return true;
+  } else {
+    return false;
   }
 }

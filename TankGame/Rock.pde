@@ -4,6 +4,7 @@ class Rock {
   PImage rock;
   char idir;
 
+
   //Constructor
   Rock(float x, float y, float w, float h, float speed, float health) {
     this.x = x;
@@ -14,7 +15,6 @@ class Rock {
     this.health = health;
     idir = 'w';
     rock = loadImage("rock.png");
-    
   }
 
   void display() {
@@ -25,8 +25,8 @@ class Rock {
 
   void move() {
     x=x+speed;
-    if(x>width){
-   x = 0;
+    if (x>width) {
+      x = 0;
     }
   }
 }
