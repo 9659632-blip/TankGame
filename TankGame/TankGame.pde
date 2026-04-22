@@ -43,19 +43,19 @@ void draw() {
     objTimer.start();
   }
 
-//Render and detect collision 
+  //Render and detect collision
   for (int i = 0; i < rocks.size(); i++) {
-    Rock part = rocks.get(i);
-    for(int j = 0 ; j < rocks.size(); j++) {
-   Rock o = rocks.get(j);
-   if(p.intersect(o)) {
-  score = score + 100;
-  projectiles.remove(i);
-  rocks.remove(j);
-   }
+    Rock p = rocks.get(i);
+    for (int j = 0; j < projectiles.size(); j++) {
+      Projectile o = projectiles.get(j);
+      if (p.intersect(o)) {
+        score = score + 100;
+        projectiles.remove(i);
+        rocks.remove(j);
+      }
     }
-    part.display();
-    part.move();
+    p.display();
+    p.move();
   }
 }
 

@@ -26,14 +26,14 @@ class Projectile {
     x += vx;
     y += vy;
   }
-}
 
 
-boolean intersect(Rock o) {
-  float distance = dist(x, y, o.x, o.y);
-  if (distance < 220) {
-    return true;
-  } else {
-    return false;
+  boolean intersect(Rock o) {
+    float distance = dist(x, y, o.x, o.y);
+    if (distance < 220) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

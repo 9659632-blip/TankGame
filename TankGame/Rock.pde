@@ -29,4 +29,12 @@ class Rock {
       x = 0;
     }
   }
+   boolean intersect(Projectile p) {
+    float distance = dist(x, y, p.x, p.y);
+    if (distance < 220) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
