@@ -49,4 +49,9 @@ class Tank {
 
   void fire() {
   }
+  boolean intersect(Rock o) {
+    float distance = dist(x, y, o.x, o.y);
+    if (distance < 220) return true;
+    else return false;
+  }
 }

@@ -36,4 +36,15 @@ class Projectile {
       return false;
     }
   }
+
+  boolean reachedSide() {
+    if (x < 0-w/2 || x > width+w/2 || y < 0-w/2 || y> height+w/2) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  boolean reachedEdge() {
+    return (x < 0 || x > width || y < 0 || y > height);
+  }
 }

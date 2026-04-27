@@ -2,12 +2,14 @@
 Tank t1;
 ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 ArrayList<Rock> rocks = new ArrayList<Rock>();
+ArrayList<PowerUp> Powerups = new ArrayList<PowerUp>();
 Rock o1;
 Rock o2;
 Rock o3;
 PImage bg;
 int score;
-Timer objTimer;
+Timer objTimer,puTimer;
+
 
 
 void setup() {
@@ -20,9 +22,40 @@ void setup() {
   //o3 = new Rock(150, 100, 100, 50, 5, 100);
   objTimer = new Timer(1000);
   objTimer.start();
+  puTimer = new Timer(5000);
+  puTimer.start();
   //rocks.add(new Rock(300, 200, 100, 100, 100, 200));
 }
-
+ //distribute PowerUps on timer†
+  if (puTimer.isFinished()) {
+    //Add powerup
+    powerups.add(new PowerUp(300, 200, 100, 100, 5, 200));
+    //restart timer
+    puTimer.start();
+  }
+  for (int i = 0; i < powerups.size(); i++) {
+    PowerUp pu = rocks.get(i);
+    for (int j = 0; j < projectiles.size(); j++) {
+      Projectile p = projectiles.get(j);
+      if (p.intersect(o)) {
+        score = score + 100;
+        powerups.remove(pu);
+        i--;
+        j--;
+        continue;
+      }
+      //detect collisions to tank
+      //impact to change score, health and obstacle
+      if (t1.intersect(o)) {
+        score = score - 100;
+      }
+      if (p.reachedEdge()) {
+        powerups.remove(i);
+        i--;
+        continue;
+      }
+    }
+  }
 
 void draw() {
   background(bg);
@@ -35,6 +68,7 @@ void draw() {
 
   scorePanel();
 
+
   //distribute objects on timer†
   if (objTimer.isFinished()) {
     //Add object
@@ -42,22 +76,37 @@ void draw() {
     //restart timer
     objTimer.start();
   }
-
+  // displays and moves owbstacles
   //Render and detect collision
   for (int i = 0; i < rocks.size(); i++) {
-    Rock p = rocks.get(i);
+    Rock o = rocks.get(i);
     for (int j = 0; j < projectiles.size(); j++) {
-      Projectile o = projectiles.get(j);
+      Projectile p = projectiles.get(j);
       if (p.intersect(o)) {
         score = score + 100;
+        projectiles.remove(j);
+        rocks.remove(o);
+        i--;
+        j--;
+        continue;
+      }
+      //detect collisions to tank
+      //impact to change score, health and obstacle
+      if (t1.intersect(o)) {
+        score = score - 100;
+      }
+      if (p.reachedEdge()) {
         projectiles.remove(i);
-        rocks.remove(j);
+        i--;
+        continue;
       }
     }
-    p.display();
-    p.move();
   }
+  // o.display();
+  // o.move();
 }
+
+
 
 
 void keyPressed() {
@@ -71,6 +120,7 @@ void keyPressed() {
     t1.move('d');
   }
 }
+
 
 
 void mousePressed() {

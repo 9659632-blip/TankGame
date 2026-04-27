@@ -13,7 +13,14 @@ class Rock {
     this.h = h;
     this.speed = speed;
     this.health = health;
-    idir = 'w';
+    if (int(random(4))==2) {
+      idir = 'w';
+      x = random (width);
+      y = height + 100;
+      idir = 'd';
+    }
+
+
     rock = loadImage("rock.png");
   }
 
@@ -29,9 +36,17 @@ class Rock {
       x = 0;
     }
   }
-   boolean intersect(Projectile p) {
+  boolean intersect(Projectile p) {
     float distance = dist(x, y, p.x, p.y);
     if (distance < 220) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  boolean reachedSide() {
+    if (x < 0-w/2 || x > width+w/2 || y < 0-w/2 || y> height+w/2) {
       return true;
     } else {
       return false;
