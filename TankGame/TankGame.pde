@@ -2,13 +2,13 @@
 Tank t1;
 ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 ArrayList<Rock> rocks = new ArrayList<Rock>();
-ArrayList<PowerUp> Powerups = new ArrayList<PowerUp>();
+ArrayList<PowerUp> powerups = new ArrayList<PowerUp>();
 Rock o1;
 Rock o2;
 Rock o3;
 PImage bg;
 int score;
-Timer objTimer,puTimer;
+Timer objTimer, puTimer;
 
 
 
@@ -26,36 +26,7 @@ void setup() {
   puTimer.start();
   //rocks.add(new Rock(300, 200, 100, 100, 100, 200));
 }
- //distribute PowerUps on timer†
-  if (puTimer.isFinished()) {
-    //Add powerup
-    powerups.add(new PowerUp(300, 200, 100, 100, 5, 200));
-    //restart timer
-    puTimer.start();
-  }
-  for (int i = 0; i < powerups.size(); i++) {
-    PowerUp pu = rocks.get(i);
-    for (int j = 0; j < projectiles.size(); j++) {
-      Projectile p = projectiles.get(j);
-      if (p.intersect(o)) {
-        score = score + 100;
-        powerups.remove(pu);
-        i--;
-        j--;
-        continue;
-      }
-      //detect collisions to tank
-      //impact to change score, health and obstacle
-      if (t1.intersect(o)) {
-        score = score - 100;
-      }
-      if (p.reachedEdge()) {
-        powerups.remove(i);
-        i--;
-        continue;
-      }
-    }
-  }
+
 
 void draw() {
   background(bg);
@@ -76,6 +47,15 @@ void draw() {
     //restart timer
     objTimer.start();
   }
+
+  if (puTimer.isFinished()) {
+    //Add powerup
+    powerups.add(new PowerUp());
+    //restart timer
+    puTimer.start();
+  }
+
+
   // displays and moves owbstacles
   //Render and detect collision
   for (int i = 0; i < rocks.size(); i++) {
@@ -104,6 +84,55 @@ void draw() {
   }
   // o.display();
   // o.move();
+  //distribute PowerUps on timer†
+
+  for (int i = 0; i < powerups.size(); i++) {
+    PowerUp pu = powerups.get(i);
+    pu.display();
+    pu.move();
+    if (pu.reachedEdge()) {
+      powerups.remove(pu);
+    }
+    if (pu.intersect(t1)) {
+      // Turret
+      if (pu.type == 't') {
+        t1.turretCount++;
+      } else  if (pu.type == 'a') {
+        t1.laserCount = t1.laserCount + 100;
+      } else  if (pu.type == 'h') {
+        t1.health = t1.health + 10;
+      }
+    }
+  }
+
+
+
+
+
+
+    for (int j = 0; j < projectiles.size(); i++) {
+      Projectile p = projectiles.get(i);
+      for (int j = 0; j < obstacles.size(); j++ {
+        Obstacle o = obstacles.get(j)
+      if (p.intersect(o)) {
+        score = score + 100;
+        pprojectiles.remove(i);
+        obstacles.remove(j);
+
+        continue;
+      }
+      //detect collisions to tank
+      //impact to change score, health and obstacle
+      if (t1.intersect(o)) {
+        score = score - 100;
+      }
+      if (p.reachedEdge()) {
+        powerups.remove(i);
+        i--;
+        continue;
+      }
+    }
+  }
 }
 
 
@@ -135,11 +164,16 @@ void mousePressed() {
     dy /= mag;
 
     float speed = 5;
-    projectiles.add(new Projectile(t1.x, t1.y, dx * speed, dy * speed));
+    if (t1.turretCount == 1 && t1.laserCount > 0) {
+      projectiles.add(new Projectile(t1.x, t1.y, dx * speed, dy * speed));
+      t1.laserCount = t1.laserCount - 1;
+    } else  if (t1.turretCount == 2) {
+      projectiles.add(new Projectile(t1.x-20, t1.y+20, dx * speed, dy * speed));
+      projectiles.add(new Projectile(t1.x +20, t1.y-20, dx * speed, dy * speed));
+      t1.laserCount = t1.laserCount - 2;
+    }
   }
 }
-
-
 
 
 void scorePanel() {
@@ -150,4 +184,6 @@ void scorePanel() {
   fill(255);
   textSize(25);
   text("Score:" + score, width/2, 25);
+  text("Health:" + t1.health, width/2-150, 25);
+  text("Ammo:" + t1.laserCount, width/2+150, 25);
 }
