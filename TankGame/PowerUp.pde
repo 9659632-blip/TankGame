@@ -36,20 +36,20 @@ class PowerUp {
     fill(128);
     if (type =='h') {
       fill(0, 200, 0);
-      elipse(x, y, w, h);
+      ellipse(x, y, w, h);
       fill(255);
       textAlign(CENTER, CENTER);
       text("health", x, y);
     } else if (type =='t') {
       fill(0, 0, 200);
-      elipse(x, y, w, h);
+      ellipse(x, y, w, h);
       fill(255);
       textAlign(CENTER, CENTER);
       text("Turret", x, y);
     } else if (type =='a') {
       fill(200, 0, 0);
       textAlign(CENTER, CENTER);
-      elipse(x, y, w, h);
+      ellipse(x, y, w, h);
       fill(255);
       text("Ammo", x, y);
     }

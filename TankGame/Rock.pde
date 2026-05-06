@@ -6,19 +6,18 @@ class Rock {
 
 
   //Constructor
-  Rock(float x, float y, float w, float h, float speed, float health) {
-    this.x = x;
-    this.y = y;
+  Rock(float w, float h, float speed, float health) {
+    
     this.w = w;
     this.h = h;
     this.speed = speed;
     this.health = health;
-    if (int(random(4))==2) {
+    
       idir = 'w';
       x = random (width);
-      y = height + 100;
+      y = -100;
       idir = 'd';
-    }
+    
 
 
     rock = loadImage("rock.png");
@@ -31,10 +30,8 @@ class Rock {
   }
 
   void move() {
-    x=x+speed;
-    if (x>width) {
-      x = 0;
-    }
+   y=y + speed;
+    
   }
   boolean intersect(Projectile p) {
     float distance = dist(x, y, p.x, p.y);

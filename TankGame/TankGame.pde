@@ -9,6 +9,7 @@ Rock o3;
 PImage bg;
 int score;
 Timer objTimer, puTimer;
+int gameState = 0;
 
 
 
@@ -29,6 +30,10 @@ void setup() {
 
 
 void draw() {
+  if (gameState == 0) {
+    startScreen();
+    return;
+  }
   background(bg);
   t1.display();
   for (int i = 0; i < projectiles.size(); i++) {
@@ -37,13 +42,13 @@ void draw() {
     part.display();
   }
 
-  scorePanel();
+ 
 
 
   //distribute objects on timer†
   if (objTimer.isFinished()) {
     //Add object
-    rocks.add(new Rock(300, 200, 100, 100, 5, 200));
+    rocks.add(new Rock( 100, 100, 5, 200));
     //restart timer
     objTimer.start();
   }
@@ -110,14 +115,14 @@ void draw() {
 
 
 
-    for (int j = 0; j < projectiles.size(); i++) {
-      Projectile p = projectiles.get(i);
-      for (int j = 0; j < obstacles.size(); j++ {
-        Obstacle o = obstacles.get(j)
+  for (int i = 0; i < projectiles.size(); i++) {
+    Projectile p = projectiles.get(i);
+    for (int j = 0; j < rocks.size(); j++) {
+      Rock o = rocks.get(j);
       if (p.intersect(o)) {
         score = score + 100;
-        pprojectiles.remove(i);
-        obstacles.remove(j);
+        projectiles.remove(i);
+        rocks.remove(o);
 
         continue;
       }
@@ -133,12 +138,17 @@ void draw() {
       }
     }
   }
+   scorePanel();
 }
 
 
 
 
 void keyPressed() {
+  if (gameState == 0 && key == ' ') {
+    gameState = 1;
+    return;
+  }
   if (key == 'w') {
     t1.move('w');
   } else if (key == 's') {
@@ -186,4 +196,17 @@ void scorePanel() {
   text("Score:" + score, width/2, 25);
   text("Health:" + t1.health, width/2-150, 25);
   text("Ammo:" + t1.laserCount, width/2+150, 25);
+}
+
+void startScreen() {
+  background(255, 182, 193);
+  fill(0);
+  textAlign(CENTER);
+  textSize(32);
+  text("Tank Game", width/2, height/2 - 40);
+  textSize(15);
+   text("By Slavica Coric", width/2, height/2 - 20);
+  text("Press SPACE to Start", width/2, height/2 + 20);
+  text("Shoot Rocks and collect powerups", width/2, height/2 - 1);
+  
 }
