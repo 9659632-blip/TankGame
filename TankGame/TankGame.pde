@@ -10,6 +10,7 @@ PImage bg;
 int score;
 Timer objTimer, puTimer;
 int gameState = 0;
+int gameEnd = 0;
 
 
 
@@ -34,6 +35,10 @@ void draw() {
     startScreen();
     return;
   }
+  if (ammo <= 0) {
+    // 4. Display the image
+    image(noAmmoImg, width/2 - noAmmoImg.width/2, height/2 - noAmmoImg.height/2);
+  } 
   background(bg);
   t1.display();
   for (int i = 0; i < projectiles.size(); i++) {
@@ -158,6 +163,13 @@ void keyPressed() {
   } else if (key == 'd') {
     t1.move('d');
   }
+  if (gameEnd == 0 && key == ' ') {
+    gameState = 1;
+    return;
+  }
+  if (key == ' ') {
+    ammo--; // Decrease ammo
+  }
 }
 
 
@@ -183,6 +195,7 @@ void mousePressed() {
       t1.laserCount = t1.laserCount - 2;
     }
   }
+  
 }
 
 
@@ -199,7 +212,7 @@ void scorePanel() {
 }
 
 void startScreen() {
-  background(255, 182, 193);
+  background(1,50,32);
   fill(0);
   textAlign(CENTER);
   textSize(32);
@@ -208,5 +221,19 @@ void startScreen() {
    text("By Slavica Coric", width/2, height/2 - 20);
   text("Press SPACE to Start", width/2, height/2 + 20);
   text("Shoot Rocks and collect powerups", width/2, height/2 - 1);
+  
+}
+void endScreen() {
+bg = loadImage("game over.png");
+  fill(0);
+  textAlign(CENTER);
+  textSize(32);
+  text("Restart", width/2, height/2 - 40);
+  textAlign(CENTER);
+textAlign(CENTER);
+  textSize(32);
+ text("Score:" + score, width/2, 25);
+  textAlign(CENTER);
+   
   
 }
